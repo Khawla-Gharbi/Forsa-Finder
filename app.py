@@ -7,7 +7,7 @@ import os
 from flask import redirect, url_for, session, jsonify
 from authlib.integrations.flask_client import OAuth
 from dotenv import load_dotenv
-from flask import render_template
+from flask import render_template ,request 
 
 
 # Load environment variables
@@ -44,45 +44,17 @@ app.register_blueprint(local_institute_routes, url_prefix='/api')
 # Initialize database
 with app.app_context():
     db.create_all()
-# Configure OAuth
-oauth = OAuth(app)
-google = oauth.register(
-    name='google',
-    client_id=os.getenv("GOOGLE_CLIENT_ID"),
-    client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
-    access_token_url='https://accounts.google.com/o/oauth2/token',
-    access_token_params=None,
-    authorize_url='https://accounts.google.com/o/oauth2/auth',
-    authorize_params=None,
-    api_base_url='https://www.googleapis.com/oauth2/v1/',
-    client_kwargs={
-        'scope': 'openid email profile',  # Request email and profile info
-    },
-)
 
+# Routes for rendering the HTML pages
 @app.route('/')
-def home():
-    return render_template('index.html')
 def index():
-    return 'Welcome to the Google OAuth Flask App! <a href="/login">Login with Google</a>'
+    return render_template('index1.html') 
+@app.route('/mentors')
+def mentors_page():
+    return render_template('mentor_database.html')
+@app.route('/institutes')
+def institutes_page():
+    return render_template('institutes.html')
 
-@app.route('/login')
-def login():
-    # Redirect the user to the Google login page
-    redirect_uri = url_for('authorize', _external=True)
-    return google.authorize_redirect(redirect_uri)
-
-@app.route('/auth/callback')
-def authorize():
-    # Handle the callback from Google
-    token = google.authorize_access_token()
-    user_info = google.get('userinfo').json()  # Fetch user info from Google
-    session['user'] = user_info  # Save user info to session
-    return jsonify(user_info)  # Display user info
-
-@app.route('/logout')
-def logout():
-    session.pop('user', None)  # Clear user session
-    return redirect('/')
 if __name__ == "__main__":
     app.run(debug=True)

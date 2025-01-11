@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}"></head>
+<body style="position: absolute;width: 100%;height: 100%;;background: url('/static/cover.jpg');background-size: cover">
+    <div>
+    <main class="institutes-section"> 
+        <h1 style="padding-right: 20px;color: #13121a;text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);">Local Institutes Database</h1>
+        <p style="padding-bottom: 20px;" >Explore local institutes offering diverse programs and opportunities. Find the right place to learn, grow, and contribute to your personal and professional development.</p>
+        <button class="all" id="findAllInstitutes">Find All Institutes</button>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="serviceInput" placeholder="Enter Service type">
+                <button class="btn btn-search" onclick="searchByService()">Search</button>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" id="locationInput" placeholder="Enter Location">
+                <button class="btn btn-search" onclick="searchByLocation()">Search</button>
+            </div>
+        </div>
+
+        <div id="institutes-list" class="institutes-list">
+            <!-- Institutes will be dynamically inserted here -->
+        </div>
+    </main>
+    </div>
+    <script src="{{ url_for('static', filename='institutes.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}"></head>
+<body style="position: absolute;width: 100%;height: 100%;;background: url('/static/cover.jpg');background-size: cover">
+    <div>
+    <main class="mentors-section"> 
+        <h1 style="padding-right: 20px;color: #13121a;text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);">Mentor Database</h1>
+
+        <p style="padding-bottom: 20px;">Discover experienced mentors who are ready to guide and support you on your journey. Connect with professionals from various fields to gain valuable insights and achieve your goals.</p>
+
+        <button class="all" id="findAllMentors">Find All Mentors</button>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="expertiseInput" placeholder="Enter Field of Expertise">
+                <button class="btn btn-search" onclick="searchByExpertise()">Search</button>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" id="mentorshipInput" placeholder="Enter Type of Mentorship">
+                <button class="btn btn-search" onclick="searchByTypeofMentorship()">Search</button>
+            </div>
+        </div>
+
+        <div id="mentors-list" class="mentors-list">
+            <!-- Mentors will be dynamically inserted here -->
+        </div>
+    </main>
+    </div>
+    <script src="{{ url_for('static', filename='mentors_script.js') }}"></script>
+</body>
+</html>

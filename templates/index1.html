@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forsa Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><button id="navbar-button" onclick="window.location.href='/mentors'">Mentor Database</button></li>
+            <li><button id="navbar-button" onclick="window.location.href='/institutes'">Local Institutes</button></li>
+            <li><a href="#faqs">FAQs</a></li>
+        </ul>
+    </nav> 
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Forsa Finder</h1>
+            <p>Your gateway to exclusive opportunities!</p>
+            <p class="subtitle">Discover programs, mentorships, and collaborations tailored for Tunisians. Empower your journey with personalized guidance and connect with a network of mentors and institutes ready to support your aspirations.</p>
+            <div class="cta-buttons">
+                <button onclick="openModal('mentor-modal')" class="btn btn-primary">Become a Mentor</button>
+                <button onclick="openModal('applicant-modal')" class="btn btn-secondary">Register as Applicant</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="opportunities-section">
+        <button class="all" id="findAllOpportunities">Find All Foreign Opportunities</button>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="categoryInput" placeholder="Enter Category">
+                <button class="btn btn-search" onclick="searchByCategory()">Search</button>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" id="countryInput" placeholder="Enter Country">
+                <button class="btn btn-search" onclick="searchByLocation()">Search</button>
+            </div>
+        </div>
+
+        <div id="opportunities-list" class="opportunities-list">
+            <!-- Opportunities will be dynamically inserted here -->
+        </div>
+    </main>
+
+    <!-- Mentor Registration Modal -->
+    <div id="mentor-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('mentor-modal')">&times;</span>
+            <h2>Become a Mentor</h2>
+            <form id="mentor-form" onsubmit="submitMentorForm(event)">
+                <input type="text" name="full_name" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="contact_link" placeholder="Contact Link">
+                <input type="text" name="field_of_expertise" placeholder="Field of Expertise" required>
+                <input type="text" name="previous_attended_program" placeholder="Previous Attended Program">
+                <select name="type_of_mentorship" required>
+                    <option value="">Select Type of Mentorship</option>
+                    <option value="academic">Academic</option>
+                    <option value="career">Career</option>
+                    <option value="personal">Personal Development</option>
+                </select>
+                <input type="text" name="organization" placeholder="Organization">
+                <select name="availability" required>
+                    <option value="">Select Availability</option>
+                    <option value="full-time">Full-time</option>
+                    <option value="part-time">Part-time</option>
+                    <option value="weekends">Weekends Only</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Applicant Registration Modal -->
+    <div id="applicant-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('applicant-modal')">&times;</span>
+            <h2>Register as Applicant</h2>
+            <form id="applicant-form" onsubmit="submitApplicantForm(event)">
+                <input type="text" name="full_name" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="university" placeholder="University" required>
+                <select name="level_of_study" required>
+                    <option value="">Select Level of Study</option>
+                    <option value="undergraduate">Undergraduate</option>
+                    <option value="graduate">Graduate</option>
+                    <option value="phd">PhD</option>
+                </select>
+                <input type="text" name="field_of_study" placeholder="Field of Study" required>
+                <textarea name="goals" placeholder="Your Goals"></textarea>
+                <input type="text" name="languages_spoken" placeholder="Languages Spoken">
+                <input type="text" name="location" placeholder="Location">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script1.js') }}"></script>
+</body>
+</html>
