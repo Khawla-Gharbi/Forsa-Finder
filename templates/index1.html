@@ -15,6 +15,7 @@
             <li><a href="#faqs">FAQs</a></li>
         </ul>
     </nav> 
+    
 
     <header class="hero">
         <div class="hero-content">
@@ -22,6 +23,11 @@
             <p>Your gateway to exclusive opportunities!</p>
             <p class="subtitle">Discover programs, mentorships, and collaborations tailored for Tunisians. Empower your journey with personalized guidance and connect with a network of mentors and institutes ready to support your aspirations.</p>
             <div class="cta-buttons">
+                {% if user %}
+                    <a href="/logout" class="btn btn-primary">Logout</a>
+                {% else %}
+                    <a href="/login" class="btn btn-primary">Login with Google</a>
+                {% endif %}
                 <button onclick="openModal('mentor-modal')" class="btn btn-primary">Become a Mentor</button>
                 <button onclick="openModal('applicant-modal')" class="btn btn-secondary">Register as Applicant</button>
             </div>

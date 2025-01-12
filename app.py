@@ -15,12 +15,14 @@ load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
+
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:Postgres25@localhost:5432/prepadvisor')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SESSION_COOKIE_NAME'] = None
+app.config['SESSION_COOKIE_NAME'] = 'session'
+app.config['SECRET_KEY']=os.getenv('SECRET_KEY')
+app.config['SESSION_PERMANENT']=False
 
 
 # Configure CORS properly
@@ -45,16 +47,62 @@ app.register_blueprint(local_institute_routes, url_prefix='/api')
 with app.app_context():
     db.create_all()
 
-# Routes for rendering the HTML pages
+
+# OAuth configuration
+oauth = OAuth(app)
+
+google = oauth.register(
+    name='google',
+    client_id=os.getenv("GOOGLE_CLIENT_ID"),
+    client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
+    access_token_url='https://accounts.google.com/o/oauth2/token',
+    authorize_url='https://accounts.google.com/o/oauth2/auth',
+    api_base_url='https://www.googleapis.com/oauth2/v1/',
+    client_kwargs={'scope': 'openid profile email'},
+    jwks_uri='https://www.googleapis.com/oauth2/v3/certs',  # Add this line
+
+)
+
+# Route for initiating the Google OAuth login
+@app.route('/login')
+def login():
+    try:
+        redirect_uri = url_for('authorize', _external=True)
+        print(f"Redirect URI: {redirect_uri}")  # Debugging
+        return google.authorize_redirect(redirect_uri)
+    except Exception as e:
+        print(f"Error in /login: {e}")  # Debugging
+        return "An error occurred during login. Please try again."
+
+# Route for handling the callback after Google OAuth login
+@app.route('/callback')
+def authorize():
+    token = google.authorize_access_token()
+    resp = google.get('userinfo')
+    user_info = resp.json()
+    session['user'] = user_info
+    return redirect('/')  # Redirect to the homepage after successful login
+
+# Route for logging out
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect('/')
+
+# Route for the homepage
 @app.route('/')
 def index():
-    return render_template('index1.html') 
+    user = session.get('user')
+    return render_template('index1.html', user=user)
+# Routes for rendering the HTML pages
+
 @app.route('/mentors')
 def mentors_page():
     return render_template('mentor_database.html')
 @app.route('/institutes')
 def institutes_page():
     return render_template('institutes.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
