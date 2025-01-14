@@ -173,6 +173,9 @@ h1 {
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+
+
 #navbar-button{
     background: none;
     border: none;
@@ -215,6 +218,7 @@ form {
     flex-direction: column;
     gap: 1rem;
 }
+
 
 form input,
 form select,
@@ -269,7 +273,166 @@ form textarea {
     color: #666;
     font-size: 1.1rem;
 }
+/* FAQ Section Container */
+.faq-section {
+    max-width: 800px; /* Limit the width for better readability */
+    margin: 0 auto; /* Center the FAQ section */
+    padding: 20px; /* Add some padding */
+}
 
+/* Ask a Question Section */
+.post-question {
+    margin-bottom: 30px; /* Space below the "Ask a Question" section */
+}
+
+.post-question h2 {
+    font-size: 24px; /* Larger font size for the heading */
+    color: #16067d; /* Dark blue color */
+    margin-bottom: 15px; /* Space below the heading */
+}
+
+/* Textarea for Questions and Answers */
+textarea {
+    width: 100%; /* Full width */
+    height: 150px; /* Fixed height */
+    padding: 12px; /* Inner spacing */
+    font-size: 16px; /* Font size */
+    font-family: Arial, sans-serif; /* Font family */
+    border: 2px solid #ccc; /* Light gray border */
+    border-radius: 8px; /* Rounded corners */
+    resize: vertical; /* Allow vertical resizing */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    margin-bottom: 15px; /* Space below the textarea */
+}
+
+textarea:hover {
+    border-color: #007BFF; /* Blue border on hover */
+}
+
+textarea:focus {
+    border-color: #007BFF; /* Blue border on focus */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Glow effect on focus */
+    outline: none; /* Remove default outline */
+}
+
+textarea::placeholder {
+    color: #999; /* Light gray placeholder text */
+    font-style: italic; /* Italic placeholder text */
+}
+
+
+
+.btn-primary1 {
+    background-color: #007BFF; /* Blue background */
+    color: white; /* White text */
+}
+
+.btn-primary1:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+
+
+/* Questions and Answers Section */
+.questions-list {
+    margin-top: 20px; /* Space above the questions list */
+}
+
+.question {
+    background-color: #f9f9f9; /* Light gray background */
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Inner spacing */
+    margin-bottom: 20px; /* Space between questions */
+}
+
+.question p {
+    margin: 5px 0; /* Space between paragraphs */
+}
+
+.question strong {
+    color: #16067d; /* Dark blue for user emails */
+}
+
+.timestamp {
+    color: #666; /* Gray color for timestamps */
+    font-size: 14px; /* Smaller font size */
+}
+
+.answers {
+    margin-top: 10px; /* Space above the answers */
+    padding-left: 20px; /* Indent answers */
+    border-left: 3px solid #007BFF; /* Blue left border for answers */
+}
+
+.answer {
+    margin-bottom: 10px; /* Space between answers */
+}
+
+.answer p {
+    margin: 5px 0; /* Space between paragraphs */
+}
+
+.answer strong {
+    color: #28a745; /* Green color for reply user emails */
+}
+
+/* Post Answer Section */
+.post-answer {
+    margin-top: 15px; /* Space above the "Post Answer" section */
+}
+
+.post-answer textarea {
+    height: 100px; /* Smaller height for answer textarea */
+}
+
+
+/* Google Login/Logout Button */
+.google {
+    display: inline-flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    padding: 10px 20px; /* Padding for the button */
+    font-size: 16px; /* Font size */
+    font-family: 'Roboto', sans-serif; /* Google's font */
+    font-weight: 500; /* Medium font weight */
+    color: #757575; /* Gray text color */
+    background-color: rgb(255, 255, 255); /* White background */
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 4px; /* Slightly rounded corners */
+    text-decoration: none; /* Remove underline */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Google Logo */
+.google::before {
+    content: ""; /* Add content for the pseudo-element */
+    display: inline-block; /* Display as inline block */
+    width: 30px; /* Width of the Google logo */
+    height: 20px; /* Height of the Google logo */
+    background-image: url('/static/google.webp');
+    background-size: cover; /* Ensure the logo fits */
+}
+
+/* Hover Effect */
+.google:hover {
+    background-color: #f8f9fa; /* Light gray background on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slightly larger shadow on hover */
+}
+
+/* Focus Effect */
+.google:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.3); /* Blue glow effect on focus */
+}
+
+/* Active Effect */
+.google:active {
+    background-color: #e9ecef; /* Slightly darker gray on click */
+}
 @keyframes slideIn {
     from {
         transform: translateX(100%);

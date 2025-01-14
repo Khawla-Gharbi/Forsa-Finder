@@ -12,7 +12,7 @@
         <ul>
             <li><button id="navbar-button" onclick="window.location.href='/mentors'">Mentor Database</button></li>
             <li><button id="navbar-button" onclick="window.location.href='/institutes'">Local Institutes</button></li>
-            <li><a href="#faqs">FAQs</a></li>
+            <li><button id="navbar-button" onclick="window.location.href='/faq'">FAQs</button></li>
         </ul>
     </nav> 
     
@@ -24,12 +24,12 @@
             <p class="subtitle">Discover programs, mentorships, and collaborations tailored for Tunisians. Empower your journey with personalized guidance and connect with a network of mentors and institutes ready to support your aspirations.</p>
             <div class="cta-buttons">
                 {% if user %}
-                    <a href="/logout" class="btn btn-primary">Logout</a>
+                    <a href="/logout" class="google">Logout</a>
                 {% else %}
-                    <a href="/login" class="btn btn-primary">Login with Google</a>
+                    <a href="/login" class="google">Login with Google</a>
                 {% endif %}
-                <button onclick="openModal('mentor-modal')" class="btn btn-primary">Become a Mentor</button>
-                <button onclick="openModal('applicant-modal')" class="btn btn-secondary">Register as Applicant</button>
+                <button onclick="openModal('mentor-modal')" class="btn btn-primary" {% if not user %}disabled{% endif %}>Become a Mentor</button>
+                <button onclick="openModal('applicant-modal')" class="btn btn-secondary" {% if not user %}disabled{% endif %}>Register as Applicant</button>
             </div>
         </div>
     </header>

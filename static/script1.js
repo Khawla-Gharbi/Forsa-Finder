@@ -93,7 +93,7 @@ function displayOpportunities(opportunities) {
             <p><strong>Duration:</strong> ${escapeHtml(safeValues.duration)}</p>
             <p><strong>Eligibility:</strong> ${escapeHtml(safeValues.eligibility_criteria)}</p>
             ${safeValues.funding_details ? `<p><strong>Funding:</strong> ${escapeHtml(safeValues.funding_details)}</p>` : ''}
-            <a href="${escapeHtml(safeValues.application_link)}" target="_blank" class="btn btn-primary">Apply Now</a>
+            <a href="${escapeHtml(safeValues.application_link)}" target="_blank" class="btn ">Apply Now</a>
         `;
         
         container.appendChild(card);

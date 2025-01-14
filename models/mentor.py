@@ -12,3 +12,4 @@ class MentorDetails(db.Model):
     type_of_mentorship = db.Column(db.String(50), nullable=False)
     organization = db.Column(db.String(100), nullable=True)
     availability = db.Column(db.String(50), nullable=False)
+

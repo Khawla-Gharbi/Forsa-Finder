@@ -12,4 +12,3 @@ class ApplicantDetails(db.Model):
     goals = db.Column(db.Text, nullable=True)
     languages_spoken = db.Column(db.String(100), nullable=True)
     location = db.Column(db.String(100), nullable=True)
-

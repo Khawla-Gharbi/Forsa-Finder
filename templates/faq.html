@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Forsa Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><button id="navbar-button" onclick="window.location.href='/'">Home</button></li>
+            <li><button id="navbar-button" onclick="window.location.href='/mentors'">Mentor Database</button></li>
+            <li><button id="navbar-button" onclick="window.location.href='/institutes'">Local Institutes</button></li>
+            <li><a href="/faq">FAQs</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>FAQ</h1>
+            <p>Ask questions and get answers from the community.</p>
+        </div>
+    </header>
+
+    
+    <main class="faq-section">
+        <!-- Form to post a new question -->
+        {% if user %}
+            <div class="post-question">
+                <h2 style="padding-right: 20px;color: #16067d;">Ask a Question</h2>
+                <textarea id="question-content" placeholder="Type your question here..."></textarea>
+                <button onclick="postQuestion()" class="btn btn-primary1">Post Question</button>
+            </div>
+        {% else %}
+            <p>You must <a href="/login">log in</a> to post a question.</p>
+        {% endif %}
+
+        <!-- Display existing questions and answers -->
+        <div class="questions-list">
+            {% for qa in questions_with_answers %}
+                <div class="question">
+                    <p><strong>{{ qa.question.user_email }}</strong> asked:</p>
+                    <p>{{ qa.question.content }}</p>
+                    <p class="timestamp">{{ qa.question.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+
+                    <!-- Display answers for this question -->
+                    <div class="answers">
+                        {% if qa.answers %}
+                            {% for answer in qa.answers %}
+                                <div class="answer">
+                                    <p><strong>{{ answer.user_email }}</strong> replied:</p>
+                                    <p>{{ answer.content }}</p>
+                                    <p class="timestamp">{{ answer.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>No answers yet.</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Form to post a reply -->
+                    {% if user %}
+                        <div class="post-answer">
+                            <textarea id="answer-content-{{ qa.question.id }}" placeholder="Type your answer here..."></textarea>
+                            <button onclick="postAnswer({qa,question_id})" class="btn btn-primary1">Post Answer</button>
+                        </div>
+                    {% else %}
+                        <p>You must <a href="/login">log in</a> to post an answer.</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+   
+
+    <script>
+        // Function to post a question
+        function postQuestion() {
+            const content = document.getElementById('question-content').value;
+            fetch('/post_question', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: content }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert(data.message);
+                    window.location.reload();  
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Function to post an answer
+        function postAnswer(questionId) {
+            const content = document.getElementById(`answer-content-${questionId}`).value;
+            fetch(`/post_answer/${questionId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: content }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert(data.message);
+                    window.location.reload();  // Refresh the page to show the new answer
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
