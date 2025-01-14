@@ -230,7 +230,7 @@ form textarea {
 }
 
 form textarea {
-    min-height: 100px;
+    min-height:50px;
     resize: vertical;
 }
 
