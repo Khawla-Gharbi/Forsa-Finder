@@ -54,19 +54,16 @@ def get_all_programs():
 @program_routes.route('/program/<int:id>', methods=['PUT'])
 def update_program(id):
     try:
-        # Attempt to fetch the program
         program = ProgramDetails.query.get(id)
         if not program:
             return jsonify({"error": f"Program with ID {id} does not exist."}), 404
 
         data = request.get_json()
 
-        # Validate and deserialize input
         errors = program_schema.validate(data)
         if errors:
             return jsonify({"errors": errors}), 400
 
-        # Update program details
         program.name = data['name']
         program.description = data['description']
         program.eligibility_criteria = data['eligibility_criteria']
@@ -120,7 +117,6 @@ def get_programs_by_category(category):
 @program_routes.route('/programs/eligibility/<string:tunisian_eligibility>', methods=['GET'])
 def get_programs_by_eligibility(tunisian_eligibility):
     try:
-        # Ensure input is properly capitalized for comparison
         tunisian_eligibility = tunisian_eligibility.capitalize()
         if tunisian_eligibility not in ['Eligible', 'Not Eligible']:
             return jsonify({"message": "Invalid input for Tunisian eligibility. Use 'Eligible' or 'Not Eligible'."}), 400

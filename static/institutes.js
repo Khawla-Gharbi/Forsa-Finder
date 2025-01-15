@@ -14,7 +14,7 @@ document.getElementById('findAllInstitutes').addEventListener('click', async () 
     }
 });
 
-// Search by Location
+
 async function searchByLocation() {
     const location = document.getElementById('locationInput').value;
     if (!location) {
@@ -35,7 +35,7 @@ async function searchByLocation() {
     }
 }
 
-// Search by service type
+
 async function searchByService() {
     const service = document.getElementById('serviceInput').value;
     if (!service) {
@@ -81,7 +81,7 @@ function displayInstitutes(institutes) {
             cost: institute.cost || 'Cost not specified'
         };
     
-        // Render the institute card
+        
         card.innerHTML = `
             <h3>${escapeHtml(safeValues.name)}</h3>
             <p><strong>Type:</strong> ${escapeHtml(safeValues.type)}</p>
@@ -97,7 +97,7 @@ function displayInstitutes(institutes) {
     });
 }
 
-// Updated fetch function with better error handling
+
 document.getElementById('findAllInstitutes').addEventListener('click', async () => {
     try {
         const response = await fetch(`${API_BASE_URL}/institutes`);
@@ -105,7 +105,7 @@ document.getElementById('findAllInstitutes').addEventListener('click', async () 
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Fetched data:', data); // Debug log to see the structure
+        console.log('Fetched data:', data); 
         displayInstitutes(data);
     } catch (error) {
         console.error('Error:', error);
@@ -113,10 +113,10 @@ document.getElementById('findAllInstitutes').addEventListener('click', async () 
         container.innerHTML = '<p class="error-message">Failed to fetch institutes. Please try again later.</p>';
     }
 });
-// Utility functions
+
 function escapeHtml(unsafe) {
     if (typeof unsafe !== 'string') {
-        unsafe = String(unsafe || ''); // Convert non-string values to strings, default to empty string
+        unsafe = String(unsafe || ''); 
     }
     return unsafe
         .replace(/&/g, "&amp;")

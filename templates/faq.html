@@ -26,7 +26,6 @@
 
     
     <main class="faq-section">
-        <!-- Form to post a new question -->
         {% if user %}
             <div class="post-question">
                 <h2 style="padding-right: 20px;color: #16067d;">Ask a Question</h2>
@@ -37,7 +36,6 @@
             <p>You must <a href="/login">log in</a> to post a question.</p>
         {% endif %}
 
-        <!-- Display existing questions and answers -->
         <div class="questions-list">
             {% for qa in questions_with_answers %}
                 <div class="question">
@@ -45,7 +43,6 @@
                     <p>{{ qa.question.content }}</p>
                     <p class="timestamp">{{ qa.question.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
 
-                    <!-- Display answers for this question -->
                     <div class="answers">
                         {% if qa.answers %}
                             {% for answer in qa.answers %}
@@ -60,7 +57,6 @@
                         {% endif %}
                     </div>
 
-                    <!-- Form to post a reply -->
                     {% if user %}
                         <div class="post-answer">
                             <textarea id="answer-content-{{ qa.question.id }}" placeholder="Type your answer here..."></textarea>
@@ -76,7 +72,6 @@
    
 
     <script>
-        // Function to post a question
         function postQuestion() {
             const content = document.getElementById('question-content').value;
             fetch('/post_question', {
@@ -100,7 +95,6 @@
             });
         }
 
-        // Function to post an answer
         function postAnswer(questionId) {
             const content = document.getElementById(`answer-content-${questionId}`).value;
             fetch(`/post_answer/${questionId}`, {
@@ -116,7 +110,7 @@
                     alert(data.error);
                 } else {
                     alert(data.message);
-                    window.location.reload();  // Refresh the page to show the new answer
+                    window.location.reload(); 
                 }
             })
             .catch(error => {

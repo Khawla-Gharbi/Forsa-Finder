@@ -15,7 +15,6 @@ document.getElementById('findAllOpportunities').addEventListener('click', async 
     }
 });
 
-// Search by category
 async function searchByCategory() {
     const category = document.getElementById('categoryInput').value;
     if (!category) {
@@ -36,7 +35,6 @@ async function searchByCategory() {
     }
 }
 
-// Search by location
 async function searchByLocation() {
     const location = document.getElementById('countryInput').value;
     if (!location) {
@@ -71,7 +69,7 @@ function displayOpportunities(opportunities) {
         const card = document.createElement('div');
         card.className = 'opportunity-card';
         
-        // Create safe values object with default values
+        
         const safeValues = {
             name: opportunity.name || 'Untitled',
             category: opportunity.category || 'N/A',
@@ -100,7 +98,7 @@ function displayOpportunities(opportunities) {
     });
 }
 
-// Updated fetch function with better error handling
+
 document.getElementById('findAllOpportunities').addEventListener('click', async () => {
     try {
         const response = await fetch(`${API_BASE_URL}/programs`);
@@ -108,7 +106,7 @@ document.getElementById('findAllOpportunities').addEventListener('click', async 
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Fetched data:', data); // Debug log to see the structure
+        console.log('Fetched data:', data); 
         displayOpportunities(data);
     } catch (error) {
         console.error('Error:', error);
@@ -117,26 +115,26 @@ document.getElementById('findAllOpportunities').addEventListener('click', async 
     }
 });
 
-// Modal functions
+
 function openModal(modalId) {
     document.getElementById(modalId).style.display = 'block';
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    document.body.style.overflow = 'hidden'; 
 }
 
 function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
-    document.body.style.overflow = ''; // Restore scrolling
+    document.body.style.overflow = ''; 
 }
 
-// Close modal when clicking outside
+
 window.onclick = function(event) {
     if (event.target.classList.contains('modal')) {
         event.target.style.display = 'none';
-        document.body.style.overflow = ''; // Restore scrolling
+        document.body.style.overflow = ''; 
     }
 }
 
-// Handle mentor form submission
+
 async function submitMentorForm(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -166,7 +164,7 @@ async function submitMentorForm(event) {
     }
 }
 
-// Handle applicant form submission
+
 async function submitApplicantForm(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -196,10 +194,10 @@ async function submitApplicantForm(event) {
     }
 }
 
-// Utility functions
+
 function escapeHtml(unsafe) {
     if (typeof unsafe !== 'string') {
-        unsafe = String(unsafe || ''); // Convert non-string values to strings, default to empty string
+        unsafe = String(unsafe || ''); 
     }
     return unsafe
         .replace(/&/g, "&amp;")
@@ -231,9 +229,9 @@ function showSuccess(message) {
     }, 5000);
 }
 
-// Add event listeners when document loads
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Close modals with Escape key
+    
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
             document.querySelectorAll('.modal').forEach(modal => {
@@ -243,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Add form submission listeners
+    
     document.getElementById('mentor-form').addEventListener('submit', submitMentorForm);
     document.getElementById('applicant-form').addEventListener('submit', submitApplicantForm);
 });

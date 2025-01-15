@@ -4,7 +4,6 @@ from schemas.applicant import ApplicantSchema
 from app import db
 
 applicant_routes = Blueprint('applicant_routes', __name__)
-# Initialize schema instances
 applicant_schema = ApplicantSchema()
 applicants_schema = ApplicantSchema(many=True)
 
@@ -13,7 +12,6 @@ def create_applicant():
     try:
         data = request.get_json()
 
-        # Validate and deserialize input
         errors = applicant_schema.validate(data)
         if errors:
             return jsonify({"errors": errors}), 400
@@ -60,7 +58,6 @@ def update_applicant(id):
         applicant = ApplicantDetails.query.get_or_404(id)
         data = request.get_json()
 
-        # Validate and deserialize input
         errors = applicant_schema.validate(data)
         if errors:
             return jsonify({"errors": errors}), 400

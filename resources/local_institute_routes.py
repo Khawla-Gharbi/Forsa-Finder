@@ -1,19 +1,18 @@
 from flask import Blueprint, request, jsonify
-from models.local_institute import LocalInstituteDetails   #LocalInstitute
+from models.local_institute import LocalInstituteDetails   
 from schemas.local_institute import LocalInstituteSchema
 from app import db
 
 local_institute_routes = Blueprint('local_institute_routes', __name__)
 
-# Initialize schema instances
-local_institute_schema = LocalInstituteSchema() #local_institute
+local_institute_schema = LocalInstituteSchema() 
 local_institutes_schema = LocalInstituteSchema(many=True)
 
 @local_institute_routes.route('/institute', methods=['POST'])
 def add_local_institute():
     data = request.get_json()
     
-    # Validate and deserialize input
+    
     errors = local_institute_schema.validate(data)
     if errors:
         return jsonify({"errors": errors}), 400
@@ -51,7 +50,7 @@ def update_institute(id):
     institute = LocalInstituteDetails.query.get_or_404(id)
     data = request.get_json()
     
-    # Validate and deserialize input
+    
     errors = local_institute_schema.validate(data)
     if errors:
         return jsonify({"errors": errors}), 400

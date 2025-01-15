@@ -13,12 +13,16 @@ from flask import render_template ,request
 load_dotenv()
 app = Flask(__name__)
 
-# Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:Postgres25@localhost:5432/prepadvisor')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_NAME'] = 'session'
 app.config['SECRET_KEY']=os.getenv('SECRET_KEY')
 app.config['SESSION_PERMANENT']=False
+app.config["API_VERSION"] = "v1"
+app.config["OPENAPI_VERSION"] = "3.0.3"
+app.config["OPENAPI_URL_PREFIX"] = "/"
+app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
+app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
 
 CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -42,14 +46,14 @@ app.register_blueprint(local_institute_routes, url_prefix='/api')
 class FAQQuestion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(500), nullable=False)
-    user_email = db.Column(db.String(100), nullable=False)  # Store the user's email
+    user_email = db.Column(db.String(100), nullable=False)  
     timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
 
 # FAQ Answer Model
 class FAQAnswer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(500), nullable=False)
-    user_email = db.Column(db.String(100), nullable=False)  # Store the user's email
+    user_email = db.Column(db.String(100), nullable=False)  
     question_id = db.Column(db.Integer, db.ForeignKey('faq_question.id'), nullable=False)
     timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
 
@@ -71,18 +75,18 @@ google = oauth.register(
 
 )
 
-# Route for initiating the Google OAuth login
+
 @app.route('/login')
 def login():
     try:
         redirect_uri = url_for('authorize', _external=True)
-        print(f"Redirect URI: {redirect_uri}")  # Debugging
+        print(f"Redirect URI: {redirect_uri}")  
         return google.authorize_redirect(redirect_uri)
     except Exception as e:
-        print(f"Error in /login: {e}")  # Debugging
+        print(f"Error in /login: {e}") 
         return "An error occurred during login. Please try again."
 
-# Route for handling the callback after Google OAuth login
+
 @app.route('/callback')
 def authorize():
     token = google.authorize_access_token()
@@ -91,18 +95,18 @@ def authorize():
     session['user'] = user_info
     return redirect('/')  
 
-# Route for logging out
+
 @app.route('/logout')
 def logout():
     session.pop('user', None)
     return redirect('/')
 
-# Route for the homepage
+
+# Routes for rendering the HTML pages
 @app.route('/')
 def index():
     user = session.get('user')
     return render_template('index1.html', user=user)
-# Routes for rendering the HTML pages
 
 @app.route('/mentors')
 def mentors_page():
@@ -111,7 +115,6 @@ def mentors_page():
 def institutes_page():
     return render_template('institutes.html')
 
-# Route to display the FAQ section
 @app.route('/faq')
 def faq():
     questions = FAQQuestion.query.order_by(FAQQuestion.timestamp.desc()).all()
@@ -124,7 +127,6 @@ def faq():
         })
     return render_template('faq.html', questions_with_answers=questions_with_answers, user=session.get('user'))
 
-# Route to post a new question
 @app.route('/post_question', methods=['POST'])
 def post_question():
     if 'user' not in session:
@@ -132,7 +134,7 @@ def post_question():
 
     data = request.json
     content = data.get('content')
-    user_email = session['user']['email']  # Get the user's email from the session
+    user_email = session['user']['email'] 
 
     if not content:
         return jsonify({'error': 'Question content cannot be empty.'}), 400
@@ -143,7 +145,6 @@ def post_question():
 
     return jsonify({'message': 'Question posted successfully!'}), 200
 
-# Route to post a reply to a question
 @app.route('/post_answer/<int:question_id>', methods=['POST'])
 def post_answer(question_id):
     if 'user' not in session:
@@ -151,7 +152,7 @@ def post_answer(question_id):
 
     data = request.json
     content = data.get('content')
-    user_email = session['user']['email']  # Get the user's email from the session
+    user_email = session['user']['email']  
 
     if not content:
         return jsonify({'error': 'Answer content cannot be empty.'}), 400
@@ -161,5 +162,8 @@ def post_answer(question_id):
     db.session.commit()
 
     return jsonify({'message': 'Answer posted successfully!'}), 200
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)

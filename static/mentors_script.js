@@ -14,7 +14,7 @@ document.getElementById('findAllMentors').addEventListener('click', async () => 
     }
 });
 
-// Search by expertise
+
 async function searchByExpertise() {
     const expertise = document.getElementById('expertiseInput').value;
     if (!expertise) {
@@ -35,7 +35,7 @@ async function searchByExpertise() {
     }
 }
 
-// Search by type of mentorship
+
 async function searchByTypeofMentorship() {
     const mentorship = document.getElementById('mentorshipInput').value;
     if (!mentorship) {
@@ -78,7 +78,7 @@ function displayMentors(mentors) {
             organization: mentor.organization || 'Organization not specified',
             availability: mentor.availability || 'Availability not specified'
         };
-        // Render the mentor card
+        
         card.innerHTML = `
         <h3>${escapeHtml(safeValues.full_name)}</h3>
         <p><strong>Email:</strong> ${escapeHtml(safeValues.email)}</p>
@@ -95,7 +95,7 @@ function displayMentors(mentors) {
     });
 }
 
-// Updated fetch function with better error handling
+
 document.getElementById('findAllmentors').addEventListener('click', async () => {
     try {
         const response = await fetch(`${API_BASE_URL}/mentors`);
@@ -103,7 +103,7 @@ document.getElementById('findAllmentors').addEventListener('click', async () => 
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Fetched data:', data); // Debug log to see the structure
+        console.log('Fetched data:', data); 
         displayMentors(data);
     } catch (error) {
         console.error('Error:', error);
@@ -111,10 +111,10 @@ document.getElementById('findAllmentors').addEventListener('click', async () => 
         container.innerHTML = '<p class="error-message">Failed to fetch mentors. Please try again later.</p>';
     }
 });
-// Utility functions
+
 function escapeHtml(unsafe) {
     if (typeof unsafe !== 'string') {
-        unsafe = String(unsafe || ''); // Convert non-string values to strings, default to empty string
+        unsafe = String(unsafe || ''); 
     }
     return unsafe
         .replace(/&/g, "&amp;")
